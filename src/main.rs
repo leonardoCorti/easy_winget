@@ -60,7 +60,7 @@ impl std::str::FromStr for Program {
 
 fn main() -> Result<(), std::io::Error> {
     print!("reading packages ...");
-    let output = run_command_with_admin("winget upgrade")?;
+    let output = run_command("winget upgrade")?;
     let from_utf8_lossy = String::from_utf8_lossy(&output.stdout);
     let programs_strings: Vec<String> = from_utf8_lossy.lines()
         .filter(|lin| lin.contains("winget"))
@@ -160,7 +160,7 @@ fn extract_first_and_last(user_input: &str) -> Result<(usize,usize),InputParseEr
     return Ok((numbers[0],numbers[1]));
 }
 
-fn run_command_with_admin(command: &str) -> Result<std::process::Output, std::io::Error> {
+fn run_command(command: &str) -> Result<std::process::Output, std::io::Error> {
     let output = Command::new("cmd")
         .args(&["/C", command])
         .output();
